@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { MdArrowOutward, MdCopyright, MdContentCopy, MdCheck, MdEmail, MdLocationOn } from "react-icons/md";
-import { FaGithub, FaLinkedinIn, FaXTwitter, FaInstagram } from "react-icons/fa6";
+import { FaGithub, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
 import "./styles/Contact.css";
 import { config } from "../config";
 import gsap from "gsap";

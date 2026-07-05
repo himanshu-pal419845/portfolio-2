@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { MdChat, MdClose, MdSend, MdArrowDownward } from "react-icons/md";
+import { MdChat, MdClose, MdSend } from "react-icons/md";
 import { RiRobot2Fill } from "react-icons/ri";
 import "./styles/ChatWidget.css";
 

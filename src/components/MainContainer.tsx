@@ -41,6 +41,7 @@ const MainContainer = ({ children }: PropsWithChildren) => {
   }, []);
 
   const scrollToTop = () => {
+    const lenis = (window as any).lenis;
     if (lenis) {
       lenis.scrollTo(0, { duration: 1.5 });
     } else {
