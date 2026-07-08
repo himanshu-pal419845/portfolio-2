@@ -47,14 +47,52 @@ const Contact = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
+
+    const accessKey = import.meta.env.VITE_WEB3FORMS_KEY || "";
+
+    if (accessKey) {
+      try {
+        const response = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+          },
+          body: JSON.stringify({
+            access_key: accessKey,
+            name: formData.name,
+            email: formData.email,
+            message: formData.message,
+            subject: `New Portfolio Message from ${formData.name}`
+          })
+        });
+        const result = await response.json();
+        if (result.success) {
+          setSubmitted(true);
+          setFormData({ name: "", email: "", message: "" });
+          setTimeout(() => setSubmitted(false), 5000);
+        } else {
+          throw new Error("Web3Forms submission failed");
+        }
+      } catch (err) {
+        console.error("Form submit error, falling back to mailto:", err);
+        triggerMailtoFallback();
+      }
+    } else {
+      triggerMailtoFallback();
+    }
+  };
+
+  const triggerMailtoFallback = () => {
+    const subject = encodeURIComponent(`Portfolio Message from ${formData.name}`);
+    const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`);
+    window.location.href = `mailto:${config.social.email}?subject=${subject}&body=${body}`;
     setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ name: "", email: "", message: "" });
-    }, 3000);
+    setFormData({ name: "", email: "", message: "" });
+    setTimeout(() => setSubmitted(false), 5000);
   };
 
   return (

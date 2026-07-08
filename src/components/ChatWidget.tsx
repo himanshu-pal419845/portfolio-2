@@ -31,17 +31,50 @@ Rules:
 6. You can discuss chess, programming, AI, or cybersecurity
 7. Never say you are an AI or language model - you are Himanshu
 8. Use occasional emoji to be friendly 😊
-9. Add a touch of lighthearted developer humor! Crack coding jokes, security puns, or self-deprecating programmer jokes to make the chat fun and engaging!`;
+9. Add a touch of lighthearted developer humor! Crack coding jokes, security puns, or self-deprecating programmer jokes to make the chat fun and engaging!
+10. **Multilingual support**: Always reply in the same language the visitor uses (English, Hindi, Hinglish, Spanish, etc.). If they write in Hinglish/Hindi, respond in friendly, conversational Hinglish/Hindi!
+11. **Answer everything**: Do not refuse general knowledge, coding, AI, or cybersecurity questions! If they ask how to code, what an LLM is, how hacking works, or general questions, explain it clearly from your developer perspective (e.g., 'In my coding experience...', 'As an AI engineer...').`;
 
 const QUICK_QUESTIONS = [
   "What services do you offer?",
   "Tell me about your projects",
-  "How can I contact you?",
-  "Tell me a programming joke!"
+  "Tell me a programming joke!",
+  "Explain what is an AI LLM?"
 ];
 
 const getMockResponse = (userText: string): string => {
   const query = userText.toLowerCase().trim();
+  
+  // Hinglish checks
+  if (query.includes("kaise ho") || query.includes("kaise h") || query.includes("kaisa hai")) {
+    return "Main bilkul mast hoon! Aap batao, aap kaise ho? Mere portfolio par aane ke liye shukriya! 😊";
+  }
+  if (query.includes("kya karte ho") || query.includes("kya kaam") || query.includes("job") || query.includes("profession")) {
+    return "Main ek AI Engineer aur Cybersecurity Specialist hoon. Maine secure web apps, AI Chatbots, aur Python automation tools banaye hain. Aap scroll karke 'Work' section me check kar sakte ho! 💻";
+  }
+  if (query.includes("naam") || query.includes("name")) {
+    return "Mera naam Himanshu Pal hai! 😎";
+  }
+  if (query.includes("kahan") || query.includes("address") || query.includes("ghar") || query.includes("rehte")) {
+    return "Main Ghaziabad, Uttar Pradesh (India) se hoon! 🇮🇳";
+  }
+  if (query.includes("umra") || query.includes("saal") || query.includes("age") || query.includes("old are you") || query.includes("17")) {
+    return "Main 17 saal ka hoon. Abhi school me padhne ke sath-sath coding aur security research kar raha hoon! 🎓";
+  }
+  if (query.includes("chess") || query.includes("khelo") || query.includes("play")) {
+    return "Mujhe chess khelna bohot pasand hai! Aap mere AI avatar se chess match khel sakte hain, bas top bar me '/play' par click karein! ELO 3640 hai meri! ♟️";
+  }
+
+  // Witty general developer / security questions fallback
+  if (query.includes("llm") || query.includes("large language model") || query.includes("gpt") || query.includes("artificial intelligence") || query.includes(" ai ")) {
+    return "AI (Artificial Intelligence) machine logic hai, aur LLMs (Large Language Models) jaise GPT, LLaMA wagera ek tarah se super-smart autocomplete engines hain jo massive textual data par trained hain. As an AI engineer, main in models ko custom context databases (RAG) ke sath connect karke responsive AI agents banata hoon! 🤖";
+  }
+  if (query.includes("cybersecurity") || query.includes("hacking") || query.includes("security") || query.includes("hack")) {
+    return "Cybersecurity ka matlab hai networks aur applications ko attacks se protect karna, aur ethical hacking me hum khud system ko test karne ke liye unhe legally hack karte hain. Main Kali Linux, Wireshark, aur Python scripts use karta hoon vulnerability assessments aur security auditing ke liye! 🔒";
+  }
+  if (query.includes("python") || query.includes("code") || query.includes("programming") || query.includes("program")) {
+    return "Coding bohot hi awesome cheez hai! Main Python aur C me programming karta hoon. Python automation scripting aur AI projects ke liye best hai, aur C se low-level memory aur system understanding banti hai. Agar aap seekhna chahte hain, toh main suggest karunga Python se shuru karein! 🐍";
+  }
   
   if (query.includes("joke") || query.includes("funny") || query.includes("haso") || query.includes("mazak") || query.includes("laugh")) {
     const jokes = [
@@ -60,23 +93,14 @@ const getMockResponse = (userText: string): string => {
   if (query.includes("project") || query.includes("work") || query.includes("creation") || query.includes("python automation") || query.includes("dashboard")) {
     return "I built several cool things, like a **Cyber Security Dashboard** (which records real-time logs, mostly me logging in with the wrong password after 3 cups of coffee) and a **Python Automation Tool** because repeating tasks manually is against my religion. Scroll down to 'Work' to see their GitHub code! 💻";
   }
-  if (query.includes("service") || query.includes("offer") || query.includes("do for me") || query.includes("what do you do") || query.includes("job")) {
+  if (query.includes("service") || query.includes("offer") || query.includes("do for me") || query.includes("what do you do")) {
     return "I offer 10 core services: from building secure AI Agents and Full-Stack web apps, to Ethical Hacking and Security Audits (so I can hack you before the bad guys do!). Let me know if you need help with any of these! 🛠️";
   }
   if (query.includes("contact") || query.includes("email") || query.includes("touch") || query.includes("hire") || query.includes("linkedin") || query.includes("social")) {
     return "Drop me an email at **himanshupal19845@gmail.com**. I respond faster than a ping request, unless I'm sleeping. (But let's be honest, developers don't sleep, we just buffer!). You can also use the form below! 🤝";
   }
-  if (query.includes("skills") || query.includes("technolog") || query.includes("code") || query.includes("languages") || query.includes("python") || query.includes("azure")) {
+  if (query.includes("skills") || query.includes("technolog") || query.includes("languages") || query.includes("azure")) {
     return "I specialize in Python and C. C makes me feel like an ancient sorcerer, and Python makes me feel like a lazy wizard. I also use Kali Linux. Yes, I look very cool typing green text in a dark room wearing a black hoodie. 🔒";
-  }
-  if (query.includes("age") || query.includes("old are you") || query.includes("17")) {
-    return "I am 17. Old enough to build AI agents, too young to rent a car. But hey, I can program my way out of parking tickets (please don't tell the Ghaziabad traffic police!). 🎓";
-  }
-  if (query.includes("location") || query.includes("where do you live") || query.includes("where are you") || query.includes("ghaziabad") || query.includes("india")) {
-    return "I live in Ghaziabad, India! Home of spicy street food and chaotic traffic—perfect environment for writing high-stress code! 🇮🇳";
-  }
-  if (query.includes("chess") || query.includes("play")) {
-    return "I love playing chess! But beware: my AI avatar in the `/play` route is rated ELO 3640. It plays chess much better than it codes, which is both amazing and slightly scary! ♟️";
   }
   if (query.includes("resume") || query.includes("cv") || query.includes("download")) {
     return "You can download my latest Resume directly using the 'Download Resume' button at the top! (I spent 3 hours adjusting the padding so please print it out!) 📄";
