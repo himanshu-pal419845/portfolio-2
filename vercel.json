@@ -1,4 +1,7 @@
 {
   "name": "himanshu-portfolio-app",
-  "framework": "vite"
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }
