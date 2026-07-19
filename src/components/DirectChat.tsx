@@ -29,7 +29,14 @@ const DirectChat = () => {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   
-  const [messages, setMessages] = useState<DBMessage[]>([]);
+  const [messages, setMessages] = useState<DBMessage[]>(() => {
+    try {
+      const cached = localStorage.getItem("visitor_chat_messages");
+      return cached ? JSON.parse(cached) : [];
+    } catch (e) {
+      return [];
+    }
+  });
   const [text, setText] = useState("");
   const [isSending, setIsSending] = useState(false);
 
@@ -167,6 +174,13 @@ const DirectChat = () => {
       supabase.removeChannel(channel);
     };
   }, [session]);
+
+  // Sync messages to localStorage
+  useEffect(() => {
+    if (messages.length > 0) {
+      localStorage.setItem("visitor_chat_messages", JSON.stringify(messages));
+    }
+  }, [messages]);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

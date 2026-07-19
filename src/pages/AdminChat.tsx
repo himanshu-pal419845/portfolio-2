@@ -36,7 +36,14 @@ interface Conversation {
 const AdminChat: React.FC = () => {
   const [session, setSession] = useState<any>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [allMessages, setAllMessages] = useState<DBMessage[]>([]);
+  const [allMessages, setAllMessages] = useState<DBMessage[]>(() => {
+    try {
+      const cached = localStorage.getItem("admin_chat_messages");
+      return cached ? JSON.parse(cached) : [];
+    } catch (e) {
+      return [];
+    }
+  });
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [selectedConvo, setSelectedConvo] = useState<string | null>(null);
   const [text, setText] = useState("");
@@ -153,6 +160,13 @@ const AdminChat: React.FC = () => {
       supabase.removeChannel(channel);
     };
   }, [session]);
+
+  // Sync allMessages to localStorage
+  useEffect(() => {
+    if (allMessages.length > 0) {
+      localStorage.setItem("admin_chat_messages", JSON.stringify(allMessages));
+    }
+  }, [allMessages]);
 
   // Group messages into conversations by sender
   useEffect(() => {
