@@ -2,6 +2,6 @@
   "name": "himanshu-portfolio-app",
   "framework": "vite",
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/((?!assets|images|favicon.ico|manifest.json|work-images|src).*)", "destination": "/index.html" }
   ]
 }
