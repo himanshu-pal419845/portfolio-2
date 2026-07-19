@@ -44,6 +44,8 @@ const AdminChat: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [filePreview, setFilePreview] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isUnlocked, setIsUnlocked] = useState(false);
+  const [passwordInput, setPasswordInput] = useState("");
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -361,6 +363,51 @@ const AdminChat: React.FC = () => {
           <p>Sign in to view and reply to all direct messages from your website visitors.</p>
           <button className="admin-google-btn" onClick={handleGoogleLogin}>
             <FaGoogle /> Sign in with Google
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Password Lock Screen
+  if (!isUnlocked) {
+    return (
+      <div className="admin-chat-page">
+        <div className="admin-login-screen">
+          <MdLock className="login-icon" />
+          <h2>Admin <span>Lock</span></h2>
+          <p>Please enter the admin password to continue.</p>
+          <input
+            type="password"
+            value={passwordInput}
+            onChange={(e) => setPasswordInput(e.target.value)}
+            placeholder="Enter Password"
+            style={{
+              padding: "12px",
+              margin: "15px 0",
+              borderRadius: "8px",
+              border: "1px solid rgba(0, 229, 255, 0.3)",
+              background: "rgba(255, 255, 255, 0.05)",
+              color: "#fff",
+              width: "100%",
+              outline: "none",
+              fontSize: "16px"
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                if (passwordInput === "himanshupal12#") setIsUnlocked(true);
+                else alert("Incorrect Password!");
+              }
+            }}
+          />
+          <button
+            className="admin-google-btn"
+            onClick={() => {
+              if (passwordInput === "himanshupal12#") setIsUnlocked(true);
+              else alert("Incorrect Password!");
+            }}
+          >
+            Unlock Dashboard
           </button>
         </div>
       </div>
