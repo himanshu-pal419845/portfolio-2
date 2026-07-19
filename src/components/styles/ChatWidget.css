@@ -364,3 +364,42 @@
     max-height: 80vh;
   }
 }
+
+/* Navigation Tabs Bar */
+.chat-tabs-bar {
+  display: flex;
+  background: rgba(255, 255, 255, 0.01);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.chat-tab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 10px 16px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.25s ease;
+}
+
+.chat-tab-btn svg {
+  font-size: 16px;
+}
+
+.chat-tab-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.chat-tab-btn.active {
+  color: #00f2fe;
+  border-bottom-color: #00f2fe;
+  background: rgba(0, 242, 254, 0.03);
+}

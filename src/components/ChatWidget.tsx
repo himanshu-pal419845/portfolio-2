@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import { MdChat, MdClose, MdSend } from "react-icons/md";
+import { MdChat, MdClose, MdSend, MdAndroid, MdForum } from "react-icons/md";
 import { RiRobot2Fill } from "react-icons/ri";
+import DirectChat from "./DirectChat";
 import "./styles/ChatWidget.css";
 
 interface Message {
@@ -111,6 +112,7 @@ const getMockResponse = (userText: string): string => {
 
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<"ai" | "direct">("ai");
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
@@ -126,10 +128,10 @@ const ChatWidget = () => {
   };
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && activeTab === "ai") {
       scrollToBottom();
     }
-  }, [messages, isOpen]);
+  }, [messages, isOpen, activeTab]);
 
   const handleSend = async (textToSend: string) => {
     if (!textToSend.trim()) return;
@@ -198,7 +200,7 @@ const ChatWidget = () => {
         <button
           className="chat-fab"
           onClick={() => setIsOpen(true)}
-          title="Chat with Himanshu's AI"
+          title="Chat with Himanshu"
           data-cursor="disable"
         >
           <MdChat className="fab-icon" />
@@ -217,8 +219,8 @@ const ChatWidget = () => {
                 <span className="online-indicator"></span>
               </div>
               <div>
-                <h4>Himanshu Pal (AI Agent)</h4>
-                <p>Online &bull; Ask Me Anything</p>
+                <h4>Himanshu Pal</h4>
+                <p>Online &bull; Interactive Widget</p>
               </div>
             </div>
             <button
@@ -230,67 +232,92 @@ const ChatWidget = () => {
             </button>
           </div>
 
-          {/* Messages area */}
-          <div className="chat-messages-area">
-            {messages.map((msg, index) => (
-              <div key={index} className={`chat-bubble-row ${msg.role}`}>
-                {msg.role === "assistant" && (
-                  <div className="chat-bubble-avatar">
-                    HP
-                  </div>
-                )}
-                <div className="chat-bubble">
-                  {msg.content}
-                </div>
-              </div>
-            ))}
-            {isTyping && (
-              <div className="chat-bubble-row assistant">
-                <div className="chat-bubble-avatar">HP</div>
-                <div className="chat-bubble typing-bubble">
-                  <span className="dot"></span>
-                  <span className="dot"></span>
-                  <span className="dot"></span>
-                </div>
-              </div>
-            )}
-            <div ref={messagesEndRef} />
-          </div>
-
-          {/* Quick suggestions if few messages */}
-          {messages.length === 1 && (
-            <div className="chat-suggestions">
-              {QUICK_QUESTIONS.map((q, idx) => (
-                <button
-                  key={idx}
-                  className="suggestion-pill"
-                  onClick={() => handleSend(q)}
-                  data-cursor="disable"
-                >
-                  {q}
-                </button>
-              ))}
-            </div>
-          )}
-
-          {/* Chat input */}
-          <div className="chat-input-bar">
-            <textarea
-              placeholder="Ask me anything..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyPress}
-              rows={1}
-            />
-            <button
-              className="chat-send-btn"
-              onClick={() => handleSend(input)}
-              disabled={!input.trim()}
+          {/* Navigation Tabs */}
+          <div className="chat-tabs-bar">
+            <button 
+              className={`chat-tab-btn ${activeTab === "ai" ? "active" : ""}`}
+              onClick={() => setActiveTab("ai")}
               data-cursor="disable"
             >
-              <MdSend />
+              <MdAndroid /> AI Agent
+            </button>
+            <button 
+              className={`chat-tab-btn ${activeTab === "direct" ? "active" : ""}`}
+              onClick={() => setActiveTab("direct")}
+              data-cursor="disable"
+            >
+              <MdForum /> Direct Message
             </button>
           </div>
+
+          {/* Conditionally Render Content */}
+          {activeTab === "direct" ? (
+            <DirectChat />
+          ) : (
+            <>
+              {/* Messages area */}
+              <div className="chat-messages-area">
+                {messages.map((msg, index) => (
+                  <div key={index} className={`chat-bubble-row ${msg.role}`}>
+                    {msg.role === "assistant" && (
+                      <div className="chat-bubble-avatar">
+                        HP
+                      </div>
+                    )}
+                    <div className="chat-bubble">
+                      {msg.content}
+                    </div>
+                  </div>
+                ))}
+                {isTyping && (
+                  <div className="chat-bubble-row assistant">
+                    <div className="chat-bubble-avatar">HP</div>
+                    <div className="chat-bubble typing-bubble">
+                      <span className="dot"></span>
+                      <span className="dot"></span>
+                      <span className="dot"></span>
+                    </div>
+                  </div>
+                )}
+                <div ref={messagesEndRef} />
+              </div>
+
+              {/* Quick suggestions if few messages */}
+              {messages.length === 1 && (
+                <div className="chat-suggestions">
+                  {QUICK_QUESTIONS.map((q, idx) => (
+                    <button
+                      key={idx}
+                      className="suggestion-pill"
+                      onClick={() => handleSend(q)}
+                      data-cursor="disable"
+                    >
+                      {q}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {/* Chat input */}
+              <div className="chat-input-bar">
+                <textarea
+                  placeholder="Ask me anything..."
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={handleKeyPress}
+                  rows={1}
+                />
+                <button
+                  className="chat-send-btn"
+                  onClick={() => handleSend(input)}
+                  disabled={!input.trim()}
+                  data-cursor="disable"
+                >
+                  <MdSend />
+                </button>
+              </div>
+            </>
+          )}
         </div>
       )}
     </div>
