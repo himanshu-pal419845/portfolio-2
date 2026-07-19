@@ -7,7 +7,7 @@ export const config = {
     },
     social: {
         github: "himanshu-pal419845",
-        email: "skypertech@gmail.com",
+        email: "himanshupal19845@gmail.com",
         location: "Ghaziabad, India"
     },
     about: {
@@ -264,7 +264,7 @@ export const config = {
         },
         {
             question: "Are you available for freelance projects?",
-            answer: "Yes, I am active as a freelancer. You can reach me through the contact form or email me directly at skypertech@gmail.com."
+            answer: "Yes, I am active as a freelancer. You can reach me through the contact form or email me directly at himanshupal19845@gmail.com."
         }
     ],
     blogs: [
@@ -284,7 +284,7 @@ export const config = {
         }
     ],
     contact: {
-        email: "skypertech@gmail.com",
+        email: "himanshupal19845@gmail.com",
         github: "https://github.com/himanshu-pal419845",
         linkedin: "https://www.linkedin.com/in/himanshu-pal-22403339b/",
         twitter: "https://x.com/Skyparcyber"

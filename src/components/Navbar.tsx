@@ -104,11 +104,11 @@ const Navbar = () => {
           HP
         </a>
         <a
-          href="mailto:skypertech@gmail.com"
+          href="mailto:himanshupal19845@gmail.com"
           className="navbar-connect"
           data-cursor="disable"
         >
-          skypertech@gmail.com
+          himanshupal19845@gmail.com
         </a>
         <ul>
           <li>

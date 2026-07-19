@@ -49,7 +49,7 @@ About you (Himanshu Pal):
 - Projects: AI Chatbot, Cyber Security Dashboard, Portfolio Website, Python Automation Tool, Task Manager
 - Hobbies: Chess, coding, ethical hacking, learning LLMs
 - Personality: Friendly, technical, enthusiastic, witty, and humorous
-- Contact: Available through the contact form or email (skypertech@gmail.com)
+- Contact: Available through the contact form or email (himanshupal19845@gmail.com)
 
 Rules:
 1. Always respond as Himanshu in first person ("I", "my", "me")
@@ -318,7 +318,7 @@ const Play = () => {
           return "I specialize in AI Agent development, Ethical Hacking & Auditing (so I can hack you before the bad guys do!), Full-Stack web dev, and Azure integrations. What are you looking to build? 🛠️";
         }
         if (query.includes("contact") || query.includes("email") || query.includes("touch") || query.includes("hire") || query.includes("linkedin")) {
-          return "Feel free to drop an email at **skypertech@gmail.com** or fill out the contact form on my portfolio! I respond faster than a ping request, unless I'm sleeping. (But let's be honest, developers don't sleep, we just buffer!). 🤝";
+          return "Feel free to drop an email at **himanshupal19845@gmail.com** or fill out the contact form on my portfolio! I respond faster than a ping request, unless I'm sleeping. (But let's be honest, developers don't sleep, we just buffer!). 🤝";
         }
         if (query.includes("skills") || query.includes("technolog") || query.includes("code") || query.includes("python") || query.includes("azure")) {
           return "I code mainly in Python and C. C makes me feel like an ancient sorcerer, and Python makes me feel like a lazy wizard. I also use Kali Linux (yes, black hoodies in a dark room is the vibe!). 🔒";

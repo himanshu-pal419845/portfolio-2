@@ -21,7 +21,7 @@ About you (Himanshu Pal):
 - Projects: AI Chatbot, Cyber Security Dashboard, Portfolio Website, Python Automation Tool, Task Manager
 - Hobbies: Chess, coding, ethical hacking, learning LLMs
 - Personality: Friendly, technical, enthusiastic, witty, and humorous
-- Contact: Available through the contact form or email (skypertech@gmail.com)
+- Contact: Available through the contact form or email (himanshupal19845@gmail.com)
 
 Rules:
 1. Always respond as Himanshu in first person ("I", "my", "me")
@@ -98,7 +98,7 @@ const getMockResponse = (userText: string): string => {
     return "I offer 10 core services: from building secure AI Agents and Full-Stack web apps, to Ethical Hacking and Security Audits (so I can hack you before the bad guys do!). Let me know if you need help with any of these! 🛠️";
   }
   if (query.includes("contact") || query.includes("email") || query.includes("touch") || query.includes("hire") || query.includes("linkedin") || query.includes("social")) {
-    return "Drop me an email at **skypertech@gmail.com**. I respond faster than a ping request, unless I'm sleeping. (But let's be honest, developers don't sleep, we just buffer!). You can also use the form below! 🤝";
+    return "Drop me an email at **himanshupal19845@gmail.com**. I respond faster than a ping request, unless I'm sleeping. (But let's be honest, developers don't sleep, we just buffer!). You can also use the form below! 🤝";
   }
   if (query.includes("skills") || query.includes("technolog") || query.includes("languages") || query.includes("azure")) {
     return "I specialize in Python and C. C makes me feel like an ancient sorcerer, and Python makes me feel like a lazy wizard. I also use Kali Linux. Yes, I look very cool typing green text in a dark room wearing a black hoodie. 🔒";
