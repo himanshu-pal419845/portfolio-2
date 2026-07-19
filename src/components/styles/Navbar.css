@@ -33,9 +33,9 @@
 .navbar-connect {
   position: absolute;
   display: none;
-  left: 50%;
+  left: 70px;
   top: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateY(-50%);
   font-size: 13px;
   letter-spacing: 0.8px;
   font-weight: 500;
@@ -101,6 +101,9 @@
     width: 46px;
     height: 46px;
     font-size: 16px;
+  }
+  .navbar-connect {
+    left: 80px;
   }
 }
 
