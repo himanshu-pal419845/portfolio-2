@@ -19,6 +19,7 @@ interface DBMessage {
   media_url?: string;
   media_type?: string;
   file_name?: string;
+  receiver_id?: string;
   created_at: string;
   profiles?: Profile; // Joined profile
 }
@@ -106,11 +107,12 @@ const DirectChat = () => {
       const { data, error } = await supabase
         .from("direct_messages")
         .select(`
-          id, sender_id, text, media_url, media_type, file_name, created_at,
+          id, sender_id, text, media_url, media_type, file_name, receiver_id, created_at,
           profiles ( id, full_name, avatar_url, email )
         `)
+        .or(`sender_id.eq.${session.user.id},receiver_id.eq.${session.user.id}`)
         .order("created_at", { ascending: true })
-        .limit(50);
+        .limit(100);
 
       if (error) {
         console.error("Error fetching messages:", error.message);
@@ -130,6 +132,10 @@ const DirectChat = () => {
         { event: "INSERT", schema: "public", table: "direct_messages" },
         async (payload) => {
           const newMessage = payload.new as DBMessage;
+          
+          if (newMessage.sender_id !== session.user.id && newMessage.receiver_id !== session.user.id) {
+            return;
+          }
 
           // Fetch sender profile details to join locally
           const { data: senderProfile } = await supabase
@@ -143,7 +149,15 @@ const DirectChat = () => {
             profiles: senderProfile || undefined,
           };
 
-          setMessages((prev) => [...prev, messageWithProfile]);
+          // Prevent duplicates from optimistic UI
+          setMessages((prev) => {
+            const isDuplicate = prev.some(m => m.id === newMessage.id || (m.id.startsWith('temp-') && m.text === newMessage.text && m.sender_id === newMessage.sender_id));
+            if (isDuplicate) {
+              // Replace temp message with real one
+              return prev.map(m => (m.id.startsWith('temp-') && m.text === newMessage.text) ? messageWithProfile : m);
+            }
+            return [...prev, messageWithProfile];
+          });
           setTimeout(scrollToBottom, 100);
         }
       )
@@ -230,10 +244,29 @@ const DirectChat = () => {
         mediaType = "link";
       }
 
+      const textToInsert = text;
+
+      const optimisticMsg: DBMessage = {
+        id: `temp-${Date.now()}`,
+        sender_id: profile.id,
+        text,
+        media_url: mediaUrl || undefined,
+        media_type: mediaType || undefined,
+        file_name: fileName || undefined,
+        created_at: new Date().toISOString(),
+        profiles: profile,
+      };
+
+      setMessages((prev) => [...prev, optimisticMsg]);
+      setTimeout(scrollToBottom, 100);
+      setText("");
+      handleClearFile();
+
       // 2. Insert Message into Database
       const { error: insertError } = await supabase.from("direct_messages").insert({
         sender_id: profile.id,
-        text,
+        receiver_id: null, // Sending to admin
+        text: textToInsert,
         media_url: mediaUrl || undefined,
         media_type: mediaType || undefined,
         file_name: fileName || undefined,
@@ -241,12 +274,9 @@ const DirectChat = () => {
 
       if (insertError) throw insertError;
 
-      // Reset Form State
-      setText("");
-      handleClearFile();
     } catch (err: any) {
       console.error("Message send failed:", err.message);
-      alert(`Message send failed: ${err.message}. Ensure bucket 'chat-attachments' exists and is public.`);
+      alert(`Message send failed: ${err.message}`);
     } finally {
       setIsSending(false);
     }
@@ -295,7 +325,7 @@ const DirectChat = () => {
           <div className="lockscreen-glow"></div>
           <MdLock className="lock-icon" />
           <h3>HP Secure <span>Direct Message</span></h3>
-          <p>Login using your Google, X, or Facebook account to connect in real-time. Share logs, screenshots, video walkthroughs, or code files directly with Himanshu.</p>
+          <p>Login using your Google account to connect in real-time. Share logs, screenshots, video walkthroughs, or code files directly with Himanshu.</p>
           <button 
             className="lockscreen-login-btn" 
             onClick={() => setIsAuthOpen(true)}
@@ -340,7 +370,11 @@ const DirectChat = () => {
               </div>
             ) : (
               messages.map((msg) => {
-                const isMe = msg.sender_id === session.user.id;
+                // Determine if this is an admin reply (if it was sent to us)
+                const isAdminReply = msg.receiver_id === session.user.id;
+                // It is "me" (visitor) if I sent it to the admin
+                const isMe = msg.sender_id === session.user.id && !isAdminReply;
+                
                 return (
                   <div key={msg.id} className={`direct-message-bubble-row ${isMe ? "me" : "himanshu"}`}>
                     {!isMe && (

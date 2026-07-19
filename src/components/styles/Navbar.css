@@ -156,3 +156,16 @@
   }
 }
 
+.nav-accent-link {
+  color: #00f2fe !important;
+  font-weight: 700;
+}
+
+.nav-signout-link {
+  opacity: 0.7;
+}
+
+.nav-accent-link:hover, .nav-signout-link:hover {
+  text-shadow: 0 0 8px rgba(0, 242, 254, 0.4);
+}
+

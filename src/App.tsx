@@ -8,6 +8,7 @@ const CharacterModel = lazy(() => import("./components/Character"));
 const MainContainer = lazy(() => import("./components/MainContainer"));
 const MyWorks = lazy(() => import("./pages/MyWorks"));
 const Play = lazy(() => import("./pages/Play"));
+const AdminChat = lazy(() => import("./pages/AdminChat"));
 import { LoadingProvider } from "./context/LoadingProvider";
 
 const App = () => {
@@ -41,6 +42,14 @@ const App = () => {
           element={
             <Suspense fallback={<div>Loading...</div>}>
               <Play />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <Suspense fallback={<div style={{background:'#0a0a0f',height:'100vh',display:'flex',alignItems:'center',justifyContent:'center',color:'#00e5ff',fontSize:'18px'}}>Loading Admin...</div>}>
+              <AdminChat />
             </Suspense>
           }
         />

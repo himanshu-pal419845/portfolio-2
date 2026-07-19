@@ -133,6 +133,17 @@ const ChatWidget = () => {
     }
   }, [messages, isOpen, activeTab]);
 
+  useEffect(() => {
+    const handleOpenDirect = () => {
+      setIsOpen(true);
+      setActiveTab("direct");
+    };
+    window.addEventListener("open-direct-chat", handleOpenDirect);
+    return () => {
+      window.removeEventListener("open-direct-chat", handleOpenDirect);
+    };
+  }, []);
+
   const handleSend = async (textToSend: string) => {
     if (!textToSend.trim()) return;
 

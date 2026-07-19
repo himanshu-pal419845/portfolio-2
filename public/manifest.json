@@ -1,0 +1,22 @@
+{
+  "name": "HP Connect Admin",
+  "short_name": "HP Admin",
+  "description": "Admin dashboard for HP Connect direct messaging",
+  "start_url": "/admin",
+  "display": "standalone",
+  "background_color": "#0a0a0f",
+  "theme_color": "#00e5ff",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/images/mypic.jpeg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "/images/mypic.jpeg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
